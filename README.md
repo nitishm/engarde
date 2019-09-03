@@ -1,26 +1,51 @@
-# Engarde - Stay on your guard with Envoy
-Parse envoy access logs like a champ with engarde and [jq](https://github.com/stedolan/jq)
+# Engarde - Stay on guard with Envoy Access Logs
+Parse [default envoy access logs](https://www.envoyproxy.io/docs/envoy/v1.8.0/configuration/access_log#default-format)  like a champ with engarde and [jq](https://github.com/stedolan/jq)
+
+# Installing
+```
+go get github.com/nitishm/engarde
+```
+This should install the compiled binary to your `$GOBIN` (or `$GOPATH/bin`).
+
+Otherwise, clone the repository and build the binary manually using,
+
+*This package uses gomodules. Ensure that GO111MODULE=on is set if building outside `$GOPATH` in go version 1.11+*
+
+```bash
+git clone https://github.com/nitishm/engarde.git
+cd engarde/
+go build -o engarde .
+mv engarde /usr/local/bin/
+export PATH=$PATH:/usr/local/bin/
+``` 
 
 # Example
+## Prerequisites
+[jq](https://github.com/stedolan/jq) is in your `$PATH`. 
 
+Download the binary [here](https://stedolan.github.io/jq/)
+
+## Try it out
 ```
-kubectl logs -f hello-world-1-0-0-155-dbg-85dc46fbb6-7qct6 -c istio-proxy | engarde | jq
+echo '[2016-04-15T20:17:00.310Z] "POST /api/v1/locations HTTP/2" 204 - 154 0 226 100 "10.0.35.28" "nsq2http" "cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2" "locations" "tcp://10.0.2.1:80"' | engarde | jq
+```
+```json
+2019/09/03 22:31:33 Reading input from STDIN. Use the pipe "|" operator to redirect traffic to engarde
 {
-  "authority": "10.10.12.12:8500",
-  "bytes_received": "2",
+  "authority": "locations",
+  "bytes_received": "154",
   "bytes_sent": "0",
-  "duration": "10165",
-  "method": "GET",
-  "protocol": "HTTP/1.1",
-  "request_id": "78490242-53c8-949b-91de-6df3a1e4b09b",
-  "response_flags": "- \"-\"",
-  "status_code": "200",
-  "timestamp": "2019-08-31T15:46:32.828Z",
-  "upstream_service": "10.15.12.33:8500",
-  "upstream_service_time": "10164",
-  "uri_param": "?wait=10s",
-  "uri_path": "/v1/foo/test",
-  "user_agent": "Python-urllib/2.7",
-  "original_message": "[2019-08-31T15:46:32.828Z] \"GET /v1/foo/test?wait=10s HTTP/1.1\" 200 - \"-\" 0 2 10165 10164 \"-\" \"Python-urllib/2.7\" \"78490242-53c8-949b-91de-6df3a1e4b09b\" \"10.15.12.33:8500\" \"10.15.12.33:8500\" PassthroughCluster - 10.15.12.33:8500 192.168.89.50:34106 -"
+  "duration": "226",
+  "method": "POST",
+  "protocol": "HTTP/2",
+  "request_id": "cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2",
+  "response_flags": "-",
+  "status_code": "204",
+  "timestamp": "2016-04-15T20:17:00.310Z",
+  "upstream_service": "tcp://10.0.2.1:80",
+  "upstream_service_time": "100",
+  "uri_path": "/api/v1/locations",
+  "user_agent": "nsq2http",
+  "original_message": "[2016-04-15T20:17:00.310Z] \"POST /api/v1/locations HTTP/2\" 204 - 154 0 226 100 \"10.0.35.28\" \"nsq2http\" \"cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2\" \"locations\" \"tcp://10.0.2.1:80\""
 }
 ```
