@@ -3,6 +3,13 @@ Parse [default envoy access logs](https://www.envoyproxy.io/docs/envoy/v1.8.0/co
 
 [![GoDoc](https://godoc.org/github.com/nitishm/engarde?status.svg)](https://godoc.org/github.com/nitishm/engarde)
 
+# Motivation
+Envoy access log messages are packed with a lot of useful information but in an unstructured log format. Without prior context, or even with context it can get cumbersome to visually inspect these log messages to extract useful information.
+
+I was inspired by this [tweet](https://twitter.com/askmeegs/status/1157029140693995521?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed&ref_url=https%3A%2F%2Fcdn.embedly.com%2Fwidgets%2Fmedia.html%3Ftype%3Dtext%252Fhtml%26key%3Da19fcc184b9711e1b4764040d3dc5c07%26schema%3Dtwitter%26url%3Dhttps%253A%2F%2Ftwitter.com%2Faskmeegs%2Fstatus%2F1157029140693995521%26image%3Dhttps%253A%2F%2Fi.embed.ly%2F1%2Fimage%253Furl%253Dhttps%25253A%25252F%25252Fpbs.twimg.com%25252Fmedia%25252FEA6X3jiX4AYh5X_.jpg%25253Alarge%2526key%253Da19fcc184b9711e1b4764040d3dc5c07) from [Megan O'Keefe](https://twitter.com/askmeegs) on twitter to create this tool for better readability of the envoy/istio-proxy access logs.
+
+In addition, a special shout out to Richard Li from ambassador.io for this excellent [article](https://blog.getambassador.io/understanding-envoy-proxy-and-ambassador-http-access-logs-fee7802a2ec5) that provides more details on each of the subcomponents of the log message.
+
 # Installing
 ```
 go get github.com/nitishm/engarde
