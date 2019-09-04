@@ -1,6 +1,8 @@
 # Engarde - Stay on guard with Envoy Access Logs
 Parse [default envoy access logs](https://www.envoyproxy.io/docs/envoy/v1.8.0/configuration/access_log#default-format)  like a champ with engarde and [jq](https://github.com/stedolan/jq)
 
+[![GoDoc](https://godoc.org/github.com/nitishm/engarde?status.svg)](https://godoc.org/github.com/nitishm/engarde)
+
 # Installing
 ```
 go get github.com/nitishm/engarde
