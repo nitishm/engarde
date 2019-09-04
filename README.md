@@ -19,13 +19,12 @@ mv engarde /usr/local/bin/
 export PATH=$PATH:/usr/local/bin/
 ``` 
 
-# Example
-## Prerequisites
-[jq](https://github.com/stedolan/jq) is in your `$PATH`. 
+# Example (default format only)
+**Prerequisites**
 
-Download the binary [here](https://stedolan.github.io/jq/)
+[jq](https://github.com/stedolan/jq) must be in your `$PATH`. If you do not have `jq` installed please download the binary [here](https://stedolan.github.io/jq/)
 
-## Try it out
+## Envoy
 ```
 echo '[2016-04-15T20:17:00.310Z] "POST /api/v1/locations HTTP/2" 204 - 154 0 226 100 "10.0.35.28" "nsq2http" "cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2" "locations" "tcp://10.0.2.1:80"' | engarde | jq
 ```
@@ -47,5 +46,34 @@ echo '[2016-04-15T20:17:00.310Z] "POST /api/v1/locations HTTP/2" 204 - 154 0 226
   "uri_path": "/api/v1/locations",
   "user_agent": "nsq2http",
   "original_message": "[2016-04-15T20:17:00.310Z] \"POST /api/v1/locations HTTP/2\" 204 - 154 0 226 100 \"10.0.35.28\" \"nsq2http\" \"cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2\" \"locations\" \"tcp://10.0.2.1:80\""
+}
+```
+
+## Istio Proxy
+```
+kubectl logs -f foo-app-1 -c istio-proxy | engarde --use-istio | jq
+```
+```json
+{
+  "authority": "hello-world",
+  "bytes_received": "148",
+  "bytes_sent": "171",
+  "duration": "4",
+  "method": "GET",
+  "protocol": "HTTP/1.1",
+  "request_id": "c0ce81db-4f5a-9134-8a5c-f8c076c91652",
+  "response_flags": "-",
+  "status_code": "200",
+  "timestamp": "2019-09-03T05:37:41.341Z",
+  "upstream_service": "192.168.89.50:9001",
+  "upstream_service_time": "3",
+  "upstream_cluster": "outbound|80||hello-world.default.svc.cluster.local",
+  "upstream_local": "-",
+  "downstream_local": "10.97.86.53:80",
+  "downstream_remote": "192.168.167.113:39953",
+  "uri_path": "/index",
+  "user_agent": "-",
+  "mixer_status": "-",
+  "original_message": "[2019-09-03T05:37:41.341Z] \"GET /index HTTP/1.1\" 200 - \"-\" 148 171 4 3 \"-\" \"-\" \"c0ce81db-4f5a-9134-8a5c-f8c076c91652\" \"hello-world\" \"192.168.89.50:9001\" outbound|80||hello-world.default.svc.cluster.local - 10.97.86.53:80 192.168.167.113:39953 -"
 }
 ```
