@@ -1,3 +1,5 @@
+![Image of Engarde Gopher](https://storage.googleapis.com/gopherizeme.appspot.com/gophers/fef90366a965fc1a12ede6225907f2007ecdf5a1.png)
+
 # Engarde - Stay on guard with Envoy Access Logs
 Parse [default envoy access logs](https://www.envoyproxy.io/docs/envoy/v1.8.0/configuration/access_log#default-format)  like a champ with engarde and [jq](https://github.com/stedolan/jq)
 
