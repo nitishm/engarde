@@ -16,7 +16,7 @@ type AccessLog struct {
 	// Duration of the request %DURATION%
 	Duration string `mapstructure:"duration" json:"duration,omitempty"`
 	// ForwardedFor is the X-Forwarded-For header value %REQ(FORWARDED-FOR)%
-	ForwardedFor string `mapstructure:"forwarded-for" json:"forwarded_for,omitempty"`
+	ForwardedFor string `mapstructure:"forwarded_for" json:"forwarded_for,omitempty"`
 	// Method is the HTTP method %REQ(:METHOD)%
 	Method string `mapstructure:"method" json:"method,omitempty"`
 	// Protocol can either be HTTP or TCP %PROTOCOL%
