@@ -45,6 +45,10 @@ type AccessLog struct {
 	DownstreamRemote string `mapstructure:"downstream_remote" json:"downstream_remote,omitempty"`
 	// RequestedServer is the String value set on ssl connection socket for Server Name Indication (SNI) %REQUESTED_SERVER_NAME%
 	RequestedServer string `mapstructure:"requested_server" json:"requested_server,omitempty"`
+	// RouteName is the name of the VirtualService route which matched this request %ROUTE_NAME%
+	RouteName string `mapstructure:"route_name" json:"route_name,omitempty"`
+	// UpstreamFailureReason is the upstream transport failure reason %UPSTREAM_TRANSPORT_FAILURE_REASON%
+	UpstreamFailureReason string `mapstructure:"upstream_failure_reason" json:"upstream_failure_reason,omitempty"`
 	// UriParam is the params field of the request path
 	UriParam string `mapstructure:"uri_param" json:"uri_param,omitempty"`
 	// UriPath is the base request path
@@ -64,9 +68,9 @@ type Pattern string
 
 const (
 	// EnvoyAccessLogsPattern is the default envoy access log format
-	EnvoyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?|%{DATA:}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\"`
-	// IstioProxyAccessLogsPattern is the default istio-proxy (envoy) access log format in Istio Service Mesh
-	IstioProxyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?|%{DATA:}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} \"%{DATA:mixer_status}\" %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\" %{DATA:upstream_cluster} %{DATA:upstream_local} %{DATA:downstream_local} %{DATA:downstream_remote} %{DATA:requested_server}`
+	EnvoyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?|%{DATA}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\"`
+	// IstioProxyAccessLogsPattern is the default istio-proxy (envoy) access log format in Istio Service Mesh (matching Istio 1.1, 1.2, and 1.3+ formats)
+	IstioProxyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:(?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?)|%{DATA}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} \"%{DATA:mixer_status}\"(?: \"%{DATA:upstream_failure_reason}\")? %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\" %{DATA:upstream_cluster} %{DATA:upstream_local} %{DATA:downstream_local} %{DATA:downstream_remote} %{DATA:requested_server}(?: %{DATA:route_name})?$`
 )
 
 // Parser implements the parsing logic
