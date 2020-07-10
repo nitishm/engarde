@@ -1,0 +1,77 @@
+project_name: engarde 
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+- main: ./main.go
+
+  env:
+    - CGO_ENABLED=0
+    
+  goos:
+    - darwin
+    - linux
+    - freebsd
+    - windows
+
+  goarch:
+    - 386
+    - amd64
+    - arm
+    - arm64
+ 
+  ignore:
+      - goos: freebsd
+        goarch: arm64
+
+archives:
+- replacements:
+    darwin: Darwin
+    linux: Linux
+    windows: Windows
+    386: i386
+    amd64: x86_64
+  format: zip
+brews:
+-
+  github:
+    owner: nitishm 
+    name: homebrew-tap
+  
+  commit_author:
+    name: Nitish Malhotra 
+    email: nitish.malhotra@gmail.com 
+
+  folder: Formula
+
+  description: "Engarde - Stay on guard with Envoy Access Logs"
+
+  skip_upload: auto
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+
+release:
+  name_template: "Engarde {{.Tag}}"
+
+scoop:
+  bucket:
+    owner: nitishm 
+    name: scoop-bucket
+
+  commit_author:
+    name: Nitish Malhotra 
+    email: nitish.malhotra@gmail.com 
+
+  description: "Engarde - Stay on guard with Envoy Access Logs"
+
+  license: MIT 
