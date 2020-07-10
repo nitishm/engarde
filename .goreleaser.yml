@@ -38,7 +38,7 @@ brews:
 -
   tap:
     owner: nitishm 
-    name: homebrew-tap
+    name: homebrew-engarde
   
   commit_author:
     name: Nitish Malhotra 
