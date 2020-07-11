@@ -36,14 +36,14 @@ archives:
   format: zip
 brews:
 -
-  tap:
+  github:
     owner: nitishm 
     name: homebrew-engarde
-  homepage: https://github.com/nitishm/engarde
+  homepage: https://github.com/kushthedude/engarde
   
   commit_author:
-    name: Nitish Malhotra 
-    email: nitish.malhotra@gmail.com 
+    name: nitishm
+    email: nitish.malhotra@gmail.com
 
   folder: Formula
 
@@ -56,10 +56,6 @@ snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'
 
 release:
   name_template: "Engarde {{.Tag}}"
@@ -67,7 +63,7 @@ release:
 scoop:
   bucket:
     owner: nitishm 
-    name: scoop-bucket
+    name: scoop-bucket-engarde
 
   commit_author:
     name: Nitish Malhotra 
