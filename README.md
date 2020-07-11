@@ -13,7 +13,24 @@ I was inspired by this [tweet](https://twitter.com/askmeegs/status/1157029140693
 In addition, a special shout out to Richard Li from ambassador.io for this excellent [article](https://blog.getambassador.io/understanding-envoy-proxy-and-ambassador-http-access-logs-fee7802a2ec5) that provides more details on each of the subcomponents of the log message.
 
 # Installing
+
+## Homebrew
+
+```console
+brew tap nitishm/homebrew-engarde
+brew install engarde
 ```
+
+## Scoop
+
+```console
+scoop bucket add engarde REPO_URL
+scoop install engarde
+```
+
+## Source
+
+```console
 go get github.com/nitishm/engarde
 ```
 This should install the compiled binary to your `$GOBIN` (or `$GOPATH/bin`).
@@ -22,7 +39,7 @@ Otherwise, clone the repository and build the binary manually using,
 
 *This package uses gomodules. Ensure that GO111MODULE=on is set if building outside `$GOPATH` in go version 1.11+*
 
-```bash
+```console
 git clone https://github.com/nitishm/engarde.git
 cd engarde/
 go build -o engarde .
@@ -36,7 +53,7 @@ export PATH=$PATH:/usr/local/bin/
 [jq](https://github.com/stedolan/jq) must be in your `$PATH`. If you do not have `jq` installed please download the binary [here](https://stedolan.github.io/jq/)
 
 ## Envoy
-```
+```console
 echo '[2016-04-15T20:17:00.310Z] "POST /api/v1/locations HTTP/2" 204 - 154 0 226 100 "10.0.35.28" "nsq2http" "cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2" "locations" "tcp://10.0.2.1:80"' | engarde | jq
 ```
 ```json
@@ -61,7 +78,7 @@ echo '[2016-04-15T20:17:00.310Z] "POST /api/v1/locations HTTP/2" 204 - 154 0 226
 ```
 
 ## Istio Proxy
-```
+```console
 kubectl logs -f foo-app-1 -c istio-proxy | engarde --use-istio | jq
 ```
 ```json
