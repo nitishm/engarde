@@ -39,7 +39,7 @@ brews:
   github:
     owner: nitishm 
     name: homebrew-engarde
-  homepage: https://github.com/kushthedude/engarde
+  homepage: https://github.com/nitishm/engarde
   
   commit_author:
     name: nitishm
