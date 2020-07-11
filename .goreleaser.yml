@@ -36,14 +36,14 @@ archives:
   format: zip
 brews:
 -
-  tap:
-    owner: nitishm 
+  github:
+    owner: kushthedude 
     name: homebrew-engarde
-  homepage: https://github.com/nitishm/engarde
+  homepage: https://github.com/kushthedude/engarde
   
   commit_author:
-    name: Nitish Malhotra 
-    email: nitish.malhotra@gmail.com 
+    name: kushthedude
+    email: kushthedude@gmail.com
 
   folder: Formula
 
@@ -56,23 +56,6 @@ snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'
 
 release:
   name_template: "Engarde {{.Tag}}"
-
-scoop:
-  bucket:
-    owner: nitishm 
-    name: scoop-bucket
-
-  commit_author:
-    name: Nitish Malhotra 
-    email: nitish.malhotra@gmail.com 
-
-  description: "Engarde - Stay on guard with Envoy Access Logs"
-
-  license: MIT 
