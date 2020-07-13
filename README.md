@@ -24,7 +24,7 @@ brew install engarde
 ## Scoop
 
 ```console
-scoop bucket add engarde REPO_URL
+scoop bucket add engarde nitishm/scoop-bucket-engarde
 scoop install engarde
 ```
 
