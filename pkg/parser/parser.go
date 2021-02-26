@@ -13,6 +13,8 @@ type AccessLog struct {
 	BytesReceived string `mapstructure:"bytes_received" json:"bytes_received,omitempty"`
 	// BytesSent as part of the request body %BYTES_SENT%
 	BytesSent string `mapstructure:"bytes_sent" json:"bytes_sent,omitempty"`
+	// ConnectionTerminationDetails provide additional information about why the connection was terminated by Envoy %CONNECTION_TERMINATION_DETAILS%
+	ConnectionTerminationDetails string `mapstructure:"termination_details" json:"connection_termination_details,omitempty"`
 	// Duration of the request %DURATION%
 	Duration string `mapstructure:"duration" json:"duration,omitempty"`
 	// ForwardedFor is the X-Forwarded-For header value %REQ(FORWARDED-FOR)%
@@ -45,6 +47,8 @@ type AccessLog struct {
 	DownstreamRemote string `mapstructure:"downstream_remote" json:"downstream_remote,omitempty"`
 	// RequestedServer is the String value set on ssl connection socket for Server Name Indication (SNI) %REQUESTED_SERVER_NAME%
 	RequestedServer string `mapstructure:"requested_server" json:"requested_server,omitempty"`
+	// RersponseCodeDetails provides additional information about the response code %RESPONSE_CODE_DETAILS%
+	ResponseCodeDetails string `mapstructure:"response_details" json:"response_code_details,omitempty"`
 	// RouteName is the name of the VirtualService route which matched this request %ROUTE_NAME%
 	RouteName string `mapstructure:"route_name" json:"route_name,omitempty"`
 	// UpstreamFailureReason is the upstream transport failure reason %UPSTREAM_TRANSPORT_FAILURE_REASON%
@@ -55,8 +59,6 @@ type AccessLog struct {
 	UriPath string `mapstructure:"uri_path" json:"uri_path,omitempty"`
 	// UserAgent is the request User Agent field %REQ(USER-AGENT)%"
 	UserAgent string `mapstructure:"user_agent" json:"user_agent,omitempty"`
-	// MixerStatus is the dynamic metadata information for the mixer status %DYNAMIC_METADATA(mixer:status)%
-	MixerStatus string `mapstructure:"mixer_status" json:"mixer_status,omitempty"`
 	// OriginalMessage is the original raw log line.
 	OriginalMessage string `json:"original_message,omitempty"`
 	// ParseError provides a string value if a parse error occured.
@@ -69,8 +71,8 @@ type Pattern string
 const (
 	// EnvoyAccessLogsPattern is the default envoy access log format
 	EnvoyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?|%{DATA}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\"`
-	// IstioProxyAccessLogsPattern is the default istio-proxy (envoy) access log format in Istio Service Mesh (matching Istio 1.1, 1.2, and 1.3+ formats)
-	IstioProxyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:(?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?)|%{DATA}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} \"%{DATA:mixer_status}\"(?: \"%{DATA:upstream_failure_reason}\")? %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\" %{DATA:upstream_cluster} %{DATA:upstream_local} %{DATA:downstream_local} %{DATA:downstream_remote} %{DATA:requested_server}(?: %{DATA:route_name})?$`
+	// IstioProxyAccessLogsPattern is the default istio-proxy (envoy) access log format in Istio Service Mesh (matching Istio 1.9+ formats)
+	IstioProxyAccessLogsPattern Pattern = `\[%{TIMESTAMP_ISO8601:timestamp}\] \"%{DATA:method} (?:(?:%{URIPATH:uri_path}(?:%{URIPARAM:uri_param})?)|%{DATA}) %{DATA:protocol}\" %{NUMBER:status_code} %{DATA:response_flags} %{DATA:response_details} %{DATA:termination_details} \"%{DATA:upstream_failure_reason}\" %{NUMBER:bytes_received} %{NUMBER:bytes_sent} %{NUMBER:duration} (?:%{NUMBER:upstream_service_time}|%{DATA:tcp_service_time}) \"%{DATA:forwarded_for}\" \"%{DATA:user_agent}\" \"%{DATA:request_id}\" \"%{DATA:authority}\" \"%{DATA:upstream_service}\" %{DATA:upstream_cluster} %{DATA:upstream_local} %{DATA:downstream_local} %{DATA:downstream_remote} %{DATA:requested_server}(?: %{DATA:route_name})?$`
 )
 
 // Parser implements the parsing logic
