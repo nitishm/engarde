@@ -105,3 +105,7 @@ kubectl logs -f foo-app-1 -c istio-proxy | engarde --use-istio | jq
   "original_message": "[2019-09-03T05:37:41.341Z] \"GET /index HTTP/1.1\" 200 - \"-\" 148 171 4 3 \"-\" \"-\" \"c0ce81db-4f5a-9134-8a5c-f8c076c91652\" \"hello-world\" \"192.168.89.50:9001\" outbound|80||hello-world.default.svc.cluster.local - 10.97.86.53:80 192.168.167.113:39953 -"
 }
 ```
+
+# Projects using Engarde
+
+A UI powered by Engarde and Envoy docs for viewing envoy access logs on the browser : [greghanson/engarde-viewer](https://github.com/greghanson/engarde-viewer)
